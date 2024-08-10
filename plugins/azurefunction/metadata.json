@@ -1,0 +1,16 @@
+Descriptor:
+  Name: Azure Function Analysis
+  DisplayName: Azure Function Analysis
+  Description: Skills for looking custom detais based on Azure Functions
+  SupportedAuthTypes:
+    - ApiKey
+  Authorization:
+    Type: APIKey
+    Key: x-apikey
+    Location: Header
+    AuthScheme: ''
+
+SkillGroups:
+  - Format: API
+    Settings:
+      OpenApiSpecUrl:
