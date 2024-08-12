@@ -1,7 +1,7 @@
 Descriptor:
-  Name: Azure Function Analysis
-  DisplayName: Azure Function Analysis
-  Description: Skills for looking custom detais based on Azure Functions
+  Name: Azure Logic App Analysis
+  DisplayName: Azure Logic App Analysis
+  Description: Skills for looking custom detais based on Azure Logic App
   SupportedAuthTypes:
     - ApiKey
   Authorization:
@@ -13,4 +13,4 @@ Descriptor:
 SkillGroups:
   - Format: API
     Settings:
-      OpenApiSpecUrl:
+      OpenApiSpecUrl: https://gist.githubusercontent.com/samikroy/6c065bfa77f993ab0354ab3294e608f6/raw/199ad83264374416f75a48e6d4fe98e37f59622d/c4s-la-plugin-specification.yml
