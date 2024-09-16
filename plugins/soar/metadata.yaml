@@ -13,4 +13,4 @@ Descriptor:
 SkillGroups:
   - Format: API
     Settings:
-      OpenApiSpecUrl: https://gist.githubusercontent.com/samikroy/273a5aead9b390d891aeb9d4aca1ff9f/raw/dc925b8a057a02648201b7086e7f9055fa7c1eb5/c4s-la-soar-plugin-specification.yml
+      OpenApiSpecUrl: https://raw.githubusercontent.com/samikroy/c4s/main/plugins/soar/openaispecs.yml
