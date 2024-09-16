@@ -1,0 +1,105 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workflows_la_c4s_soar_demo_name": {
+            "defaultValue": "la-c4s-soar-demo",
+            "type": "String"
+        },
+        "connections_wdatp_externalid": {
+            "defaultValue": "/subscriptions/fcb7d51b-418f-45a9-8418-5c0f17e343c8/resourceGroups/rg-copilot-dev/providers/Microsoft.Web/connections/wdatp",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_la_c4s_soar_demo_name')]",
+            "location": "northcentralus",
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "worker": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "method": "POST",
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "machineid": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "actions": {
+                        "Actions_-_Isolate_machine": {
+                            "runAfter": {},
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['wdatp']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "body": {
+                                    "Comment": "Initiated from Copilot",
+                                    "IsolationType": "Full"
+                                },
+                                "path": "/api/machines/@{encodeURIComponent(triggerBody()?['machineid'])}/isolate"
+                            }
+                        },
+                        "Response": {
+                            "runAfter": {
+                                "Actions_-_Isolate_machine": [
+                                    "Succeeded",
+                                    "TimedOut",
+                                    "Skipped",
+                                    "Failed"
+                                ]
+                            },
+                            "type": "Response",
+                            "kind": "Http",
+                            "inputs": {
+                                "statusCode": 200,
+                                "body": [
+                                    {
+                                        "machineid": "@{triggerBody()?['machineid']}",
+                                        "text": "machine isolation triggered"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "wdatp": {
+                                "id": "",
+                                "connectionId": "[parameters('connections_wdatp_externalid')]",
+                                "connectionName": "wdatp"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
