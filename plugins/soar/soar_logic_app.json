@@ -7,7 +7,7 @@
             "type": "String"
         },
         "connections_wdatp_externalid": {
-            "defaultValue": "/subscriptions/fcb7d51b-418f-45a9-8418-5c0f17e343c8/resourceGroups/rg-copilot-dev/providers/Microsoft.Web/connections/wdatp",
+            "defaultValue": "/subscriptions/<SubscriptionId>/resourceGroups/rg-copilot-dev/providers/Microsoft.Web/connections/wdatp",
             "type": "String"
         }
     },
